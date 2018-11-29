@@ -64,6 +64,7 @@ class ClientHandler extends Thread {
 		String[] rq = new String[3];
 		int lastIndex = request.lastIndexOf("/");
 		int propsStart = request.indexOf("?");
+		System.out.println(request);
 		if (lastIndex == 0)
 			rq[0] = null;
 		else
@@ -81,6 +82,7 @@ class ClientHandler extends Thread {
 		Properties props = null;
 
 		header = Http.parseHttpRequest(Http.readLine(in));
+		System.out.println(header[0]);
 		headerParsed = parseRequest(header[1]);
 
 		props = Http.parseHttpPostContents(headerParsed[2]);

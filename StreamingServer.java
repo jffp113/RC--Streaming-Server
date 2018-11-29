@@ -27,9 +27,11 @@ public class StreamingServer {
 	   		default: System.err.println("usage: java   -cp .:vlcproxy.jar StreamingServer port");
 	   				 System.exit(-1);
 	   }
-	   
+	  
       Socket s;
+      proxy.VlcProxy.start( port );
       
+      //VlcProxy.start( port );
       while(true) {
 	      try(ServerSocket ss = new ServerSocket ( port );){
 	    	 System.out.println("Waiting");
