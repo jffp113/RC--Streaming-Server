@@ -7,7 +7,9 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.URLDecoder;
 import java.util.Properties;
+import java.util.Scanner;
 
 class ClientHandler extends Thread {
 	private static final int PLAYBACKDELAY = 1 * 1000;
@@ -74,18 +76,37 @@ class ClientHandler extends Thread {
 		rq[2] = request.substring(propsStart + 1);
 		return rq;
 	}
+	
+	public static Properties parseHttpPostContents( String contents)
+			throws IOException {
+		Properties props = new Properties();
+		Scanner scanner = new Scanner(contents).useDelimiter( "&");
+		while( scanner.hasNext()) {
+			Scanner inScanner = new Scanner( scanner.next()).useDelimiter( "=");
+			String propName = URLDecoder.decode( inScanner.next(), "UTF-8");
+			String propValue = "";
+			try {
+				propValue = URLDecoder.decode( inScanner.next(), "UTF-8");
+			} catch( Exception e) {
+				// do nothing
+			}
+			props.setProperty( propName, propValue);
+		}
+		return props;
+	}
 
 	private void handlePlayerRequest(Socket s) throws Exception {
 		String[] header = null;
 		String[] headerParsed = null;
 		InputStream in = s.getInputStream();
 		Properties props = null;
-
+		
 		header = Http.parseHttpRequest(Http.readLine(in));
 		System.out.println(header[0]);
+		System.out.println(header[1]);
 		headerParsed = parseRequest(header[1]);
 
-		props = Http.parseHttpPostContents(headerParsed[2]);
+		props = parseHttpPostContents(headerParsed[2]);
 		contentServerURLPrefix = headerParsed[0];
 
 		System.out.println(headerParsed[0] + " " + headerParsed[1] + " " + headerParsed[2]);

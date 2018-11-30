@@ -17,7 +17,7 @@ public class HTTPRequest {
 	private OutputStream out;
 	private InputStream in;
 	private URL url;
-	private int fileSize;
+	private long fileSize;
 	
 	private int getPort() {
 		return url.getPort() == -1 ? 80 : url.getPort();
@@ -83,7 +83,7 @@ public class HTTPRequest {
 		this.url = url;
 	}
 	
-	public int getFileSize() {
+	public long getFileSize() {
 		return fileSize;
 	}
 	
@@ -105,7 +105,7 @@ public class HTTPRequest {
 			contentLenght = Integer.parseInt(options.get("Content-Length"));
 			
 			if(contentLenghtHeader != null)
-				fileSize = Http.parseRangeValuesSentByServer(contentLenghtHeader)[2];
+				fileSize = Http.parseRangeValues(contentLenghtHeader)[2];
 			else
 				fileSize = contentLenght;
 			

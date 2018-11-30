@@ -20,10 +20,10 @@ public class Cache {
 	}
 	
 	public void requestFileToServer(String server,String fileName) throws Exception {
-		int min = 0;
-		int max = min + REQUEST_SIZE;
+		long min = 0;
+		long max = min + REQUEST_SIZE;
 
-		int fileSize;
+		long fileSize;
 		HTTPRequest rq = new HTTPRequest(new URL(server + "/" + fileName));
 		
 		rq.getFileBytes(0, 1);
@@ -36,7 +36,7 @@ public class Cache {
 		
 		while(max < fileSize) {
 			
-			writeToFile("./Files/"+fileName,rq.getFileBytes(min, max),min);
+			writeToFile("./Files/"+fileName,rq.getFileBytes((int)min, (int)max),(int)min);
 			
 			min = max + 1;
 			

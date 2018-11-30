@@ -31,8 +31,11 @@ public class StreamingServer {
       Socket s;
       proxy.VlcProxy.start( port );
       
-      //VlcProxy.start( port );
       while(true) {
+    	  //P de gestão de cache
+    	  //http://localhost:8000/http://asc.di.fct.unl.pt/rc/movies/monsters.dat?ip=localhost&port=1234
+    	  ////http://localhost:8000/monsters.dat?ip=localhost&port=1234
+    	  s = null;
 	      try(ServerSocket ss = new ServerSocket ( port );){
 	    	 System.out.println("Waiting");
 	         s = ss.accept();
