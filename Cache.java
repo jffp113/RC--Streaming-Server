@@ -7,16 +7,31 @@ import java.net.URL;
 public class Cache {
 	private final int REQUEST_SIZE = 50000;
 	private int cacheSize;
+	//private List<FileNode> files;
 	
-	private void writeToFile(String fileName, byte[] buffer, int start) throws Exception {
-		File f = new File(fileName);
-		
-		
+	
+	/*private void writeToFile(String fileName, byte[] buffer, int start) throws Exception {
+		File f = new File(fileName);	
 			try(RandomAccessFile file = new RandomAccessFile ( f, "rw" )){
 				file.seek(start);
 				file.write(buffer);		
-			}
-			
+			}	
+			f.
+	}*/
+	
+	private void removeOldestFile() {
+		  File dir = new File(Stream.SERVER_FILES);
+		  File[] directoryListing = dir.listFiles();
+		  File oldestFile = null;
+		  
+		    for (File child : directoryListing) {
+		    		oldestFile = child;
+		    }
+		    
+		    if(oldestFile != null) {
+		    	oldestFile.deleteOnExit();
+		    }
+		    	    
 	}
 	
 	public void requestFileToServer(String server,String fileName) throws Exception {
