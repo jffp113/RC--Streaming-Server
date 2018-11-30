@@ -53,6 +53,27 @@ public class HTTPRequest {
 		
 	}
 	
+	public static long[] parseRangeValuesSentByServer(String value) {
+		long[] result = { -1, -1, -1 }; // special cases
+		int pos0 = value.indexOf(' ');
+		int pos1 = value.indexOf('-');
+		int pos2 = value.indexOf('/');
+		if (pos0 == -1 || pos1 == -1 || pos2 == -1)
+			return result;
+		result[0] = Integer.valueOf(value.substring(pos0 + 1, pos1));
+		String upperSide = value.substring(pos1 + 1, pos2).trim();
+		String fileLength = value.substring(pos2 + 1).trim();
+		if (upperSide.isEmpty())
+			result[1] = -1; // useless since it already is
+		else
+			result[1] = Integer.valueOf(upperSide);
+		if (fileLength.isEmpty())
+			result[2] = -1; // useless since it already is
+		else
+			result[2] = Integer.valueOf(fileLength);
+		return result;
+	}
+	
 	public String getFileName() {
 		String path = getPath();
 		return path.substring(path.lastIndexOf("/") + 1, path.length());
@@ -105,7 +126,7 @@ public class HTTPRequest {
 			contentLenght = Integer.parseInt(options.get("Content-Length"));
 			
 			if(contentLenghtHeader != null)
-				fileSize = Http.parseRangeValues(contentLenghtHeader)[2];
+				fileSize = parseRangeValuesSentByServer(contentLenghtHeader)[2];
 			else
 				fileSize = contentLenght;
 			
