@@ -5,40 +5,45 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Cache {
-	private final int REQUEST_SIZE = 50000;
-	private int cacheSize;
-	//private List<FileNode> files;
+	public static final int CACHE_SIZE = 4;
+	public static final int REQUEST_SIZE = 50000;
 	
-	
-	/*private void writeToFile(String fileName, byte[] buffer, int start) throws Exception {
+	private void writeToFile(String fileName, byte[] buffer, int start) throws Exception {
 		File f = new File(fileName);	
 			try(RandomAccessFile file = new RandomAccessFile ( f, "rw" )){
 				file.seek(start);
 				file.write(buffer);		
 			}	
-			f.
-	}*/
+	}
 	
-	private void removeOldestFile() {
-		  File dir = new File(Stream.SERVER_FILES);
-		  File[] directoryListing = dir.listFiles();
+	private void removeOldestFile(File[] directoryListing) {
 		  File oldestFile = null;
 		  
 		    for (File child : directoryListing) {
-		    		oldestFile = child;
-		    }
-		    
+		    		if(oldestFile == null || oldestFile.lastModified() > child.lastModified())
+		    			oldestFile = child;
+		    } 
 		    if(oldestFile != null) {
 		    	oldestFile.deleteOnExit();
 		    }
-		    	    
+	}
+	
+	private void cleanCache() {
+		File dir = new File(Stream.SERVER_FILES);
+		File[] directoryListing = dir.listFiles();
+		
+		if(CACHE_SIZE == directoryListing.length)
+			removeOldestFile(directoryListing);
+		
 	}
 	
 	public void requestFileToServer(String server,String fileName) throws Exception {
 		long min = 0;
 		long max = min + REQUEST_SIZE;
-
 		long fileSize;
+		
+		cleanCache();
+		
 		HTTPRequest rq = new HTTPRequest(new URL(server + "/" + fileName));
 		
 		rq.getFileBytes(0, 1);
