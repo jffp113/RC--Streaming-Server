@@ -70,7 +70,7 @@ class ClientHandler extends Thread {
 		if (lastIndex == 0)
 			rq[0] = null;
 		else
-			rq[0] = request.substring(1, lastIndex);
+			rq[0] = request.substring(0, lastIndex);
 
 		rq[1] = request.substring(lastIndex + 1, propsStart);
 		rq[2] = request.substring(propsStart + 1);
