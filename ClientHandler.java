@@ -1,16 +1,6 @@
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.net.URLDecoder;
 import java.util.Map;
-import java.util.Properties;
-import java.util.Scanner;
 
 class ClientHandler extends Thread {
 	
