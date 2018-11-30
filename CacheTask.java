@@ -9,33 +9,13 @@ class CacheTask extends Thread {
 	private String fileName;
 	private String contentServerURLPrefix;
 
-	private void removeOldestFile(File[] directoryListing) {
-		File oldestFile = null;
 
-		for (File child : directoryListing) {
-			if (oldestFile == null || oldestFile.lastModified() > child.lastModified())
-				oldestFile = child;
-		}
-
-		if (oldestFile != null) {
-			oldestFile.delete();
-		}
-	}
-
-	private void cleanCache() {
-		File dir = new File(Stream.SERVER_FILES);
-		File[] directoryListing = dir.listFiles();
-
-		if (CACHE_SIZE <= directoryListing.length)
-			removeOldestFile(directoryListing);
-
-	}
 
 	public void requestFileToServer(String server, String fileName) throws Exception {
 		BufferedInputStream in = new BufferedInputStream(new URL(server + "/" + fileName).openStream());
 		FileOutputStream out = new FileOutputStream(Stream.SERVER_FILES + fileName);
 
-		cleanCache();
+		//cleanCache();
 
 		int bytesRead = -1;
 		byte[] buffer = new byte[REQUEST_SIZE];

@@ -11,26 +11,27 @@ public class Stream {
 	public static final int PLAYBACKDELAY = 1 * 1000;
 	public static final String SERVER_FILES = "Files/";
 	private String contentServerURLPrefix;
+	private Cache cache;
+	private CacheNode fileNode;
 	
-	public Stream(String contentServerURLPrefix) {
+	public Stream(String contentServerURLPrefix,Cache cache) {
 		this.contentServerURLPrefix = contentServerURLPrefix;
+		this.cache = cache;
+		this.fileNode = null;
 	}
 	
 	
 	private DataInputStream getFileFromWebServer(String fileName) throws Exception {
 		DataInputStream dis = null;
 		boolean requested = false;
-		
+		fileNode = cache.requestFile(fileName,contentServerURLPrefix);
+				
 		while(true) {
 			try {
-				dis = new DataInputStream(new FileInputStream(SERVER_FILES + fileName));
+				dis = new DataInputStream(new FileInputStream(fileNode.getFile()));
 				break;
 			} catch (FileNotFoundException e) {
-				if (!requested) {
-					new CacheTask(fileName, contentServerURLPrefix).start();
 					Thread.sleep(PLAYBACKDELAY);
-					requested = true;
-				}
 			}		
 		}
 		
@@ -49,6 +50,7 @@ public class Stream {
 		
 		
 		try (DatagramSocket ms = new DatagramSocket()) {
+			fileNode.use();
 			System.out.println("Stream Started");
 			while (true) {
 				
@@ -70,7 +72,7 @@ public class Stream {
 			}
 
 		} catch (IOException e) {
-			
+			fileNode.stopUsing();
 		}
 	}
 	

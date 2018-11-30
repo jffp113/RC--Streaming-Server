@@ -14,6 +14,7 @@ public class CacheNode {
 		this.file = file;
 	}
 	
+	
 	private void updateTime() {
 		lastAccessTime = System.currentTimeMillis();
 	}
@@ -21,10 +22,11 @@ public class CacheNode {
 	public void use(){
 		synchronized (file) {
 			numberOfFileUsers++;
+			updateTime();
 		}
 	}
 	
-	private File getFile() {
+	public File getFile() {
 		return this.file;
 	}
 	
@@ -51,4 +53,11 @@ public class CacheNode {
 		return removed;
 	}
 	
+	public boolean isOlder(CacheNode f) {
+		return this.lastAccessTime < f.lastAccessedTime();
+	}
+	
+	public long lastAccessedTime() {
+		return this.lastAccessTime;
+	}
 }

@@ -6,7 +6,7 @@ class ClientHandler extends Thread {
 	
 	private Socket s;
 	private String contentServerURLPrefix;
-	 
+	private Cache c;
 
 	private String[] parseRequest(String request) {
 		String[] rq = new String[3];
@@ -41,12 +41,13 @@ class ClientHandler extends Thread {
 
 		System.out.println(headerParsed[0] + " " + headerParsed[1] + " " + headerParsed[2]);
 
-		stream = new Stream(contentServerURLPrefix);
+		stream = new Stream(contentServerURLPrefix,c);
 		stream.streamFile(Integer.parseInt(props.get("port")) ,props.get("ip"), headerParsed[1]);
 	}
 
-	public ClientHandler(Socket s) {
+	public ClientHandler(Socket s,Cache c) {
 		this.s = s;
+		this.c = c;
 	}
 
 	public void run() {
