@@ -40,7 +40,7 @@ public class Cache {
 		}
 		
 		if(fileName != null) {
-			System.out.println("Removed " + fileName);
+			System.out.printf("Set %s to be Removed\n",fileName);
 			files.get(fileName).setRemovelTag();
 			files.remove(fileName);
 		}

@@ -15,8 +15,8 @@ class CacheTask extends Thread {
 		BufferedInputStream in = new BufferedInputStream(new URL(server + "/" + fileName).openStream());
 		FileOutputStream out = new FileOutputStream(Stream.SERVER_FILES + fileName);
 
-		//cleanCache();
-
+		System.out.println("Requesting File From Server");
+		
 		int bytesRead = -1;
 		byte[] buffer = new byte[REQUEST_SIZE];
 

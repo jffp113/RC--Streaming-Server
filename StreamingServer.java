@@ -20,7 +20,7 @@ public class StreamingServer {
 	  
       Socket s;
       proxy.VlcProxy.start( port );
-      
+      //http://localhost:8000/http://asc.di.fct.unl.pt/rc/movies/monsters.dat?ip=localhost&port=1234
       while(true) {
     	  s = null;
 	      try(ServerSocket ss = new ServerSocket ( port );){

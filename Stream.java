@@ -72,6 +72,10 @@ public class Stream {
 			}
 
 		} catch (IOException e) {
+			
+		}
+		finally{
+			dis.close();
 			fileNode.stopUsing();
 		}
 	}

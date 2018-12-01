@@ -33,6 +33,7 @@ public class CacheNode {
 		if(toBeDeleted && numberOfFileUsers == 0) {
 			removed = true;
 			file.delete();
+			System.out.printf("File Removed %s \n " ,file.getName());
 		}
 	}
 	
