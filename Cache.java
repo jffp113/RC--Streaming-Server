@@ -12,6 +12,12 @@ public class Cache {
 	
 	private int cacheSize;
 	
+	public Cache(int size) {
+		this.cacheSize = size;
+		files = new Hashtable<String,CacheNode>();
+		loadFiles();
+	}
+	
 	private void cleanCache() {
 		Iterator<String> it;
 		int pos = -1;
@@ -41,6 +47,15 @@ public class Cache {
 	
 	}
 
+	private void loadFiles() {
+		File dir = new File(Stream.SERVER_FILES);
+		File[] directoryListing = dir.listFiles();
+		
+		for (File child : directoryListing) {
+			files.put(child.getName(), new CacheNode(child));
+		}
+	}
+	
 	public synchronized CacheNode requestFile(String fileName,String contentServerURLPrefix) {
 		CacheNode n = files.get(fileName);
 		
@@ -56,21 +71,7 @@ public class Cache {
 		
 		return n;
 	}
-	
-	public Cache(int size) {
-		this.cacheSize = size;
-		files = new Hashtable<String,CacheNode>();
-		loadFiles();
-	}
 
-	private void loadFiles() {
-		File dir = new File(Stream.SERVER_FILES);
-		File[] directoryListing = dir.listFiles();
-		
-		for (File child : directoryListing) {
-			files.put(child.getName(), new CacheNode(child));
-		}
-	}
 	
 	
 }

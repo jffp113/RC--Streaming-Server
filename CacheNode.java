@@ -13,8 +13,7 @@ public class CacheNode {
 		updateTime();
 		this.file = file;
 	}
-	
-	
+		
 	private void updateTime() {
 		lastAccessTime = System.currentTimeMillis();
 	}
