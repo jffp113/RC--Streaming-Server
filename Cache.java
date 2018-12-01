@@ -27,7 +27,7 @@ public class Cache {
 		
 		Set<String> keys = files.keySet();
 		
-		if (cacheSize > files.size())
+		if (files.size() <= cacheSize)
 				return;
 		
 		it = keys.iterator();

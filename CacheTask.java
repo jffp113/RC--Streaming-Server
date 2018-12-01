@@ -12,21 +12,31 @@ class CacheTask extends Thread {
 
 
 	public void requestFileToServer(String server, String fileName) throws Exception {
-		BufferedInputStream in = new BufferedInputStream(new URL(server + "/" + fileName).openStream());
-		FileOutputStream out = new FileOutputStream(Stream.SERVER_FILES + fileName);
-
-		System.out.println("Requesting File From Server");
+		BufferedInputStream in = null;
+		FileOutputStream out = null;
 		
-		int bytesRead = -1;
-		byte[] buffer = new byte[REQUEST_SIZE];
-
-		while ((bytesRead = in.read(buffer, 0, REQUEST_SIZE)) != -1) {
-			out.write(buffer, 0, bytesRead);
+		try{
+			in = new BufferedInputStream(new URL(server).openStream());
+			out = new FileOutputStream(Stream.SERVER_FILES + fileName);
+	
+			System.out.println("Requesting File From Server");
+			
+			int bytesRead = -1;
+			byte[] buffer = new byte[REQUEST_SIZE];
+	
+			while ((bytesRead = in.read(buffer, 0, REQUEST_SIZE)) != -1) {
+				out.write(buffer, 0, bytesRead);
+			}
+			
+		}catch(Exception e) {
+			System.out.println("BAD REQUEST");
 		}
-
-		in.close();
-		out.close();
-
+		finally {
+			if(in != null)
+				in.close();
+			if(out != null)
+				out.close();
+		}
 	}
 
 	public CacheTask(String fileName, String contentServerURLPrefix) {
@@ -40,6 +50,7 @@ class CacheTask extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 
 	}
 }
