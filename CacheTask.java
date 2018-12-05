@@ -51,6 +51,6 @@ class CacheTask extends Thread {
 			e.printStackTrace();
 		}
 		
-
+		System.out.println("Finished C request");
 	}
 }

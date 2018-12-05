@@ -10,6 +10,7 @@ import java.net.InetAddress;
 public class Stream {
 	public static final int PLAYBACKDELAY = 1 * 1000;
 	public static final String SERVER_FILES = "Files/";
+	private static final int WAIT_TRIES = 100;
 	private String contentServerURLPrefix;
 	private Cache cache;
 	private CacheNode fileNode;
@@ -23,19 +24,20 @@ public class Stream {
 	
 	private DataInputStream getFileFromWebServer(String fileName) throws Exception {
 		DataInputStream dis = null;
-		boolean requested = false;
 		fileNode = cache.requestFile(fileName,contentServerURLPrefix);
-				
-		while(true) {
+		int i = 0;
+		
+		while(i < WAIT_TRIES) {
 			try {
 				dis = new DataInputStream(new FileInputStream(fileNode.getFile()));
-				break;
+				return dis;
 			} catch (FileNotFoundException e) {
 					Thread.sleep(PLAYBACKDELAY);
+					i++;
 			}		
 		}
 		
-		return dis;
+		return null;
 	}
 	
 	public void streamFile(int port,String ip,String fileName) throws Exception {
@@ -48,6 +50,8 @@ public class Stream {
 		
 		DataInputStream dis = getFileFromWebServer(fileName);
 		
+		if(dis == null)
+			return;
 		
 		try (DatagramSocket ms = new DatagramSocket()) {
 			fileNode.use();

@@ -18,7 +18,7 @@ public class Cache {
 		loadFiles();
 	}
 	
-	private void cleanCache() {
+	private synchronized void cleanCache() {
 		Iterator<String> it;
 		int pos = -1;
 		CacheNode n = null;
@@ -65,7 +65,7 @@ public class Cache {
 		cleanCache();
 		
 		(new CacheTask(fileName,contentServerURLPrefix)).start();
-		
+		System.out.println("Requested Server");
 		n = new CacheNode(new File(Stream.SERVER_FILES + fileName));
 		files.put(fileName,n);
 		
