@@ -2,6 +2,12 @@ import java.io.InputStream;
 import java.net.Socket;
 import java.util.Map;
 
+/**
+ * This class handles client requests of the Streaming Server
+ * @author Jorge Pereira 49771
+ * @author Ana Josefa Matos 49938
+ */
+
 class ClientHandler extends Thread {
 	
 	private Socket s;

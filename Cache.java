@@ -7,6 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class controls the cache
+ * @author Jorge Pereira 49771
+ * @author Ana Josefa Matos 49938
+ */
+
 public class Cache {
 	private  Map<String,CacheNode> files;
 	

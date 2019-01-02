@@ -3,6 +3,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
 
+/**
+ * This class is a cache Task
+ * It will request a  movie to a specified server 
+ * @author Jorge Pereira 49771
+ * @author Ana Josefa Matos 49938
+ *
+ */
+
 class CacheTask extends Thread {
 	public static final int CACHE_SIZE = 4;
 	public static final int REQUEST_SIZE = 50000;

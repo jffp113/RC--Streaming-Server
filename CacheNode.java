@@ -1,5 +1,14 @@
 import java.io.File;
 
+/**
+ * This class represents a Cache Item
+ * so that we can control how many streams are using the file
+ * and if it needs to be deleted
+ * @author Jorge Pereira 49771
+ * @author Ana Josefa Matos 49938
+ *
+ */
+
 public class CacheNode {
 	private long lastAccessTime;
 	private File file;

@@ -1,10 +1,18 @@
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * This class is the start point of the StreamingServer
+ * To work with this server you may need to have a folder called Files that
+ * servers as cache
+ * @author Jorge Pereira 49771
+ * @author Ana Josefa Matos 49938
+ *
+ */
+
 public class StreamingServer {
    private static final int CACHE_SIZE = 4;
    private static int  port;
-   //private static String  contentServerURLPrefix;
 
    
    public static void main(String[] args) throws Exception {

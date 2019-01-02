@@ -6,7 +6,12 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-
+/**
+ * This class controls the streaming to the client
+ * @author Jorge Pereira 49771
+ * @author Ana Josefa Matos 49938
+ *
+ */
 public class Stream {
 	public static final int PLAYBACKDELAY = 1 * 1000;
 	public static final String SERVER_FILES = "Files/";
@@ -52,12 +57,12 @@ public class Stream {
 		
 		if(dis == null)
 			return;
-		
+		int i = 0;
 		try (DatagramSocket ms = new DatagramSocket()) {
 			fileNode.use();
 			System.out.println("Stream Started");
 			while (true) {
-				
+				i++;
 				size = dis.readShort();
 				timeStamp = dis.readLong();
 				dis.readFully(buffer, 0, size);
@@ -81,6 +86,7 @@ public class Stream {
 		finally{
 			dis.close();
 			fileNode.stopUsing();
+			System.out.println(i);
 		}
 	}
 	
